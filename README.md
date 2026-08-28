@@ -1,4 +1,4 @@
-# AI Fluency Track — Elcan Atashoff
+# AI Fluency — Elcan Atashoff
 
 Coursework for the AI fluency track, applied to my real week as a solo founder building
 **Flyrank-ai**. One folder per task.
@@ -9,6 +9,12 @@ Coursework for the AI fluency track, applied to my real week as a solo founder b
 | FL-02 — Delegation | [`FL-02-delegation/`](FL-02-delegation/) | — | — | ⚪ not started |
 | FL-03 — Collaboration | [`FL-03-collaboration/`](FL-03-collaboration/) | — | — | ⚪ not started |
 | FL-04 — Automation | [`FL-04-automation/`](FL-04-automation/) | — | — | ⚪ not started |
+
+### FlyRank AI Internship — 10-week portfolio build
+
+| Week | Folder | Move | Status |
+|---|---|---|---|
+| Week 01 — Draw the Path | [`week-01-draw-the-path/`](week-01-draw-the-path/) | Proof statement, sitemap, toolkit, Claude Project | 🟡 docs done, screenshots pending |
 
 ## The thread running through all four
 

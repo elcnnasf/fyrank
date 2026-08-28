@@ -1,0 +1,635 @@
+<title>The Audit Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root {
+    --ground:      #EFF2EE;
+    --surface:     #FFFFFF;
+    --surface-sub: #F6F8F5;
+    --ink:         #171C19;
+    --ink-2:       #3E4A43;
+    --muted:       #6E7B73;
+    --line:        #D3DBD4;
+    --line-soft:   #E3E9E3;
+    --accent:      #A66206;
+    --accent-ink:  #6E4104;
+    --accent-wash: #FBF0DC;
+    --cut:         #93A099;
+
+    --shadow: 0 1px 2px rgba(23,28,25,.05), 0 8px 24px -12px rgba(23,28,25,.18);
+
+    --f-display: "Newsreader", Georgia, "Times New Roman", serif;
+    --f-body:    "Instrument Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    --f-mono:    "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+
+    --measure: 66ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #12160F;
+      --surface:     #1A1F19;
+      --surface-sub: #161B15;
+      --ink:         #E9EDE6;
+      --ink-2:       #C3CCBF;
+      --muted:       #8E9A89;
+      --line:        #2E362C;
+      --line-soft:   #242B23;
+      --accent:      #E3A644;
+      --accent-ink:  #F2C983;
+      --accent-wash: #2A2113;
+      --cut:         #6D7869;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #12160F;
+    --surface:     #1A1F19;
+    --surface-sub: #161B15;
+    --ink:         #E9EDE6;
+    --ink-2:       #C3CCBF;
+    --muted:       #8E9A89;
+    --line:        #2E362C;
+    --line-soft:   #242B23;
+    --accent:      #E3A644;
+    --accent-ink:  #F2C983;
+    --accent-wash: #2A2113;
+    --cut:         #6D7869;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead { display: flex; flex-direction: column; gap: 20px; }
+
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  h1 {
+    font-family: var(--f-display);
+    font-size: clamp(38px, 6vw, 62px);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -.02em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .standfirst {
+    font-family: var(--f-display);
+    font-size: clamp(17px, 2.2vw, 21px);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: var(--measure);
+    margin: 0;
+  }
+
+  /* ---------- premise strip ---------- */
+
+  .premise {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .premise > div {
+    background: var(--surface);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .premise dt {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .premise dd {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .premise > div.is-action { background: var(--accent-wash); }
+  .premise > div.is-action dt { color: var(--accent-ink); }
+  .premise > div.is-action dd { color: var(--accent-ink); font-weight: 600; }
+
+  /* ---------- section scaffolding ---------- */
+
+  section { display: flex; flex-direction: column; gap: 28px; }
+
+  h2 {
+    font-family: var(--f-display);
+    font-size: 27px;
+    font-weight: 500;
+    letter-spacing: -.012em;
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .note {
+    margin: 0;
+    max-width: var(--measure);
+    color: var(--ink-2);
+    font-size: 15.5px;
+  }
+
+  /* ---------- the map ---------- */
+
+  .map { display: flex; flex-direction: column; }
+
+  .band {
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .band-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 14px;
+    text-align: right;
+    justify-self: end;
+  }
+
+  .band-step {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    color: var(--muted);
+  }
+
+  .band-name {
+    font-family: var(--f-display);
+    font-size: 20px;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .band-what {
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 18px 0;
+    grid-column: 2;
+  }
+
+  .rail-line {
+    width: 1px;
+    height: 34px;
+    background: var(--line);
+  }
+
+  .rail-line.is-action { background: var(--accent); width: 2px; }
+
+  .rail-arrow {
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--line);
+  }
+
+  .rail-arrow.is-action { border-top-color: var(--accent); }
+
+  .nodes { display: flex; flex-direction: column; gap: 14px; }
+  .nodes.is-row { flex-direction: row; flex-wrap: wrap; }
+  .nodes.is-row > .node { flex: 1 1 210px; }
+
+  .node {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  .node-url {
+    font-family: var(--f-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -.01em;
+  }
+
+  .node-role {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .node ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .node li {
+    font-size: 13.5px;
+    line-height: 1.42;
+    color: var(--ink-2);
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .node li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: .62em;
+    width: 5px; height: 1px;
+    background: var(--cut);
+  }
+
+  .node-job {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--muted);
+    border-top: 1px solid var(--line-soft);
+    padding-top: 10px;
+    font-style: italic;
+    font-family: var(--f-display);
+  }
+
+  .node.is-action {
+    border-color: var(--accent);
+    border-width: 2px;
+    background: var(--accent-wash);
+  }
+
+  .node.is-action .node-url,
+  .node.is-action .node-role { color: var(--accent-ink); }
+  .node.is-action li { color: var(--accent-ink); }
+  .node.is-action li::before { background: var(--accent); }
+  .node.is-action .node-job { color: var(--accent-ink); border-top-color: rgba(166,98,6,.28); }
+
+  .node-count {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: var(--accent-ink);
+    background: var(--accent-wash);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 1px 6px;
+    align-self: flex-start;
+  }
+
+  /* ---------- tables ---------- */
+
+  .table-scroll { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+    min-width: 560px;
+  }
+
+  th {
+    text-align: left;
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 16px 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  td {
+    padding: 13px 16px 13px 0;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+    color: var(--ink-2);
+    line-height: 1.45;
+  }
+
+  td:first-child { color: var(--ink); white-space: nowrap; }
+
+  td code, .mono {
+    font-family: var(--f-mono);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .cut td:first-child { color: var(--cut); text-decoration: line-through; }
+
+  /* ---------- changes ---------- */
+
+  .changes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .change {
+    background: var(--surface-sub);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--accent);
+    border-radius: 3px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .change h3 {
+    margin: 0;
+    font-family: var(--f-body);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+
+  .change p { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 720px) {
+    .premise { grid-template-columns: 1fr; }
+    .band { grid-template-columns: 1fr; gap: 12px; }
+    .band-label { text-align: left; justify-self: start; padding-top: 0; }
+    .rail { grid-column: 1; align-items: flex-start; padding-left: 22px; }
+    .nodes.is-row { flex-direction: column; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">FlyRank AI Internship · Week 01 · Draw the Path</div>
+    <h1>Four pages, one&nbsp;door,<br><em>nothing else</em></h1>
+    <p class="standfirst">
+      The sitemap for a portfolio that has exactly one job: take a marketing lead who has never
+      heard of me from cold landing to a requested audit. Every page below survives one test —
+      does it move her along that line? Seven pages failed it and are listed at the bottom.
+    </p>
+
+    <dl class="premise">
+      <div>
+        <dt>The claim</dt>
+        <dd>I make brands visible inside AI answers.</dd>
+      </div>
+      <div>
+        <dt>The one person</dt>
+        <dd>Marketing lead, B2B SaaS, 10–50 people, organic traffic flattening.</dd>
+      </div>
+      <div class="is-action">
+        <dt>The one action</dt>
+        <dd>Request a free AI-visibility audit.</dd>
+      </div>
+    </dl>
+  </header>
+
+  <section>
+    <h2>The map</h2>
+
+    <div class="map">
+
+      <div class="band">
+        <div class="band-label">
+          <div class="band-step">STAGE 01</div>
+          <div class="band-name">Landing</div>
+          <div class="band-what">40 seconds, on a phone, cold</div>
+        </div>
+        <div class="nodes">
+          <div class="node">
+            <div class="node-url">/</div>
+            <div class="node-role">Home — states the claim</div>
+            <ul>
+              <li>Hero: “Your buyers are asking AI. It isn’t saying your name.”</li>
+              <li>Proof strip — three numbers, above the fold</li>
+              <li>Three case cards, linking straight to the detail pages</li>
+              <li>CTA at the top and again at the bottom</li>
+            </ul>
+            <div class="node-job">Without it she never learns what I do.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div></div>
+        <div class="rail">
+          <div class="rail-line"></div>
+          <div class="rail-arrow"></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-label">
+          <div class="band-step">STAGE 02</div>
+          <div class="band-name">Belief</div>
+          <div class="band-what">Is this real, and is he?</div>
+        </div>
+        <div class="nodes is-row">
+          <div class="node">
+            <div class="node-count">× 3</div>
+            <div class="node-url">/work/&lt;slug&gt;</div>
+            <div class="node-role">Case study — the proof</div>
+            <ul>
+              <li>The literal prompts her buyers type, listed verbatim</li>
+              <li>Before: invisible in 12 of 12</li>
+              <li>What I changed, in order</li>
+              <li>After: cited in 7 of 12</li>
+            </ul>
+            <div class="node-job">Carries the entire burden of belief. She can reproduce it herself.</div>
+          </div>
+          <div class="node">
+            <div class="node-url">/about</div>
+            <div class="node-role">About — the trust gate</div>
+            <ul>
+              <li>150 words, one photograph</li>
+              <li>Why I work on this specifically</li>
+              <li>How I work, and what I don’t do</li>
+            </ul>
+            <div class="node-job">She believes the work; this is where she decides about the person.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div></div>
+        <div class="rail">
+          <div class="rail-line is-action"></div>
+          <div class="rail-arrow is-action"></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-label">
+          <div class="band-step">STAGE 03</div>
+          <div class="band-name">Action</div>
+          <div class="band-what">One door, no alternatives</div>
+        </div>
+        <div class="nodes">
+          <div class="node is-action">
+            <div class="node-url">/audit</div>
+            <div class="node-role">Request a free AI-visibility audit</div>
+            <ul>
+              <li>What she gets: a one-page report on her own domain</li>
+              <li>Turnaround: three working days</li>
+              <li>The form: site URL, work email, two competitors</li>
+              <li>No call required, no list, no follow-up sequence</li>
+            </ul>
+            <div class="node-job">The only place the belief is allowed to go.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Why each page earns its place</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Page</th><th>Job in the path</th><th>What breaks without it</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/</code></td>
+            <td>States the claim in one line and proves it is real enough to keep reading.</td>
+            <td>She never learns what I do; she bounces in four seconds.</td>
+          </tr>
+          <tr>
+            <td><code>/work/&lt;slug&gt;</code> ×3</td>
+            <td>Named prompts, named site, before-and-after citation counts.</td>
+            <td>The claim stays a claim. Nothing is checkable, so nothing is believed.</td>
+          </tr>
+          <tr>
+            <td><code>/about</code></td>
+            <td>Answers who this person is and why he cares — the gate before she hands over her URL.</td>
+            <td>She trusts the work but not the author, and stops there.</td>
+          </tr>
+          <tr>
+            <td><code>/audit</code></td>
+            <td>The one action, with every reason not to take it removed.</td>
+            <td>The belief has nowhere to go.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pages I am deliberately not building</h2>
+    <p class="note">
+      Each of these exists on almost every portfolio I looked at. None of them move this person
+      toward this action, so none of them ship.
+    </p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Rejected</th><th>Why it does not earn its place</th></tr>
+        </thead>
+        <tbody>
+          <tr class="cut"><td><code>/blog</code></td><td>A treadmill competing with the case studies for the same attention. If I have something to say, it becomes a case study.</td></tr>
+          <tr class="cut"><td><code>/services</code></td><td>She is not buying a package yet; she is deciding whether I am real.</td></tr>
+          <tr class="cut"><td><code>/pricing</code></td><td>Pricing before proof changes her question from “is this real?” to “can I afford this?” — wrong question, wrong moment.</td></tr>
+          <tr class="cut"><td><code>/contact</code></td><td>Duplicates <span class="mono">/audit</span> and offers a weaker second door. One action means one door.</td></tr>
+          <tr class="cut"><td><code>/work</code> index</td><td>With three cases, an index is a click that adds no belief. The cards live on the home page.</td></tr>
+          <tr class="cut"><td><code>/resume</code></td><td>Wrong artifact for this person. She is not hiring an employee; she wants her problem looked at.</td></tr>
+          <tr class="cut"><td><code>/testimonials</code></td><td>A testimonial belongs inside the case study it came from, beside the numbers it vouches for.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the pressure test changed</h2>
+    <p class="note">
+      Version 1 of this map had six URLs and two ways to contact me. The tutor prompt — walk the path
+      as her, cold, on a phone — broke three things.
+    </p>
+    <div class="changes">
+      <div class="change">
+        <h3>Cut the <span class="mono">/work</span> index</h3>
+        <p>Claim to proof went from two clicks to one. With three cases, an index page is pure friction.</p>
+      </div>
+      <div class="change">
+        <h3>Case studies open with the prompts</h3>
+        <p>Verbatim, so she can paste them into ChatGPT herself. Proof she can check beats proof she has to trust.</p>
+      </div>
+      <div class="change">
+        <h3><span class="mono">/audit</span> says what happens next</h3>
+        <p>Deliverable, format, turnaround, and a no-call promise — the objection that stops a stranger handing over a company URL.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>Header nav: <span class="mono">Work · About · [Get your free audit]</span> — three items, the third is a button.</div>
+    <div>Elcan Atashoff · Week 01 · 29 Aug 2026</div>
+  </footer>
+
+</div>
